@@ -43,11 +43,13 @@ namespace NbaApi.ViewModels
             {
                 selectedPageNo = value; OnPropertyChanged();
                 var no = SelectedPageNo.No;
-                AllTeams = new ObservableCollection<Response>(result.Skip((no - 1) * 10).Take(10));
+                if (result != null)
+                    AllTeams = new ObservableCollection<Response>(result.Skip((no - 1) * 10).Take(10));
             }
         }
 
         List<Response> result = null;
+        List<Player> playersResult = null;
         public HomeViewModel()
         {
             LoadData();
@@ -63,14 +65,14 @@ namespace NbaApi.ViewModels
             var service = new NbaApiService();
             if (File.Exists("players.json"))
             {
-                //var result = JsonHelper<Player>.Deserialize("players.json");
-                //            AllPlayers = new ObservableCollection<Response>(result);
+                ////var result = JsonHelper<Player>.Deserialize("players.json");
+                ////AllPlayers = new ObservableCollection<Response>(result);
             }
             else
             {
-                //var result = await service.GetPlayersByTeamIdAsync(1);
-                //JsonHelper<Player>.Serialize(result, "players.json");
-                //AllPlayers = new ObservableCollection<Response>(result);
+                playersResult = await service.GetPlayersByTeamIdAsync(1);
+                JsonHelper<Player>.Serialize(playersResult, "players.json");
+                var AllPlayers = new ObservableCollection<Player>(playersResult);//evde var silin
             }
             if (File.Exists("teams.json"))
             {
