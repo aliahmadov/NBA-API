@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NbaApi.Services.NBAApiService
+namespace NbaApi.Models
 {
-    public class ApiKeys
+    public class PageNo
     {
-        public static string Key { get; } = "";
+        public int No { get; set; }
     }
 }

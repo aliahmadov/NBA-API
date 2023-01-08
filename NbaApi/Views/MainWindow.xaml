@@ -3,19 +3,19 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:NbaApi"
+        xmlns:local="clr-namespace:NbaApi" xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800" Background="Black">
-    <Grid>
+    <StackPanel>
         <ListView ItemsSource="{Binding AllTeams,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
                       BorderThickness="6"
                      
                     >
-            <!--<i:Interaction.Triggers>
+            <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding SelectedCarChangedCommand}" ></i:InvokeCommandAction>
+                    <i:InvokeCommandAction Command="{Binding SelectedCarChangedCommand}" CommandParameter="{Binding SelectedTeam}"  ></i:InvokeCommandAction>
                 </i:EventTrigger>
-            </i:Interaction.Triggers>-->
+            </i:Interaction.Triggers>
 
             <ListBox.Template>
                 <ControlTemplate TargetType="ListBox">
@@ -46,5 +46,45 @@
 
         </ListView>
 
-    </Grid>
+        <WrapPanel Margin="20" Name="MyPanel">
+            <ListView ItemsSource="{Binding AllPages,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      BorderThickness="6"
+                     SelectedItem="{Binding SelectedPageNo}"
+                    >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding SelectPageCommand}"  ></i:InvokeCommandAction>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+
+                <ListBox.Template>
+                    <ControlTemplate TargetType="ListBox">
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderBrush}">
+                            <ItemsPresenter/>
+                        </Border>
+                    </ControlTemplate>
+                </ListBox.Template>
+
+
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <WrapPanel   ></WrapPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+
+                            <Button FontSize="30" FontWeight="ExtraBlack"
+                    Content="{Binding No}" Margin="5"
+                    Width="50" Height="50" Background="DeepSkyBlue" ></Button>
+
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+
+            </ListView>
+
+        </WrapPanel>
+
+    </StackPanel>
 </Window>

@@ -27,6 +27,7 @@ namespace NbaApi
         {
             InitializeComponent();
             var vm = new HomeViewModel();
+            vm.MyPanel = MyPanel;
             this.DataContext = vm;
         }
     }

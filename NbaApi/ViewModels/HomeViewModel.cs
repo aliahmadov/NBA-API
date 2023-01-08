@@ -1,4 +1,5 @@
 ﻿using NbaApi.ApiEntities.Teams;
+using NbaApi.Commands;
 using NbaApi.Models;
 using NbaApi.Services;
 using NbaApi.Services.NBAApiService;
@@ -9,54 +10,104 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace NbaApi.ViewModels
 {
-    public class HomeViewModel:BaseViewModel
+    public class HomeViewModel : BaseViewModel
     {
+        public WrapPanel MyPanel { get; set; }
 
-		private ObservableCollection<Response> allTeams;
+        private ObservableCollection<Response> allTeams;
 
-		public ObservableCollection<Response> AllTeams
+        public ObservableCollection<Response> AllTeams
         {
-			get { return allTeams; }
-			set { allTeams = value; OnPropertyChanged(); }
-		}
-
-		public HomeViewModel()
-		{
-			LoadData();
+            get { return allTeams; }
+            set { allTeams = value; OnPropertyChanged(); }
         }
 
-		public async void LoadData()
-		{
-			var service = new NbaApiService();
-			if (File.Exists("players.json"))
-			{
-				//var result = JsonHelper<Player>.Deserialize("players.json");
-    //            AllPlayers = new ObservableCollection<Response>(result);
-            }
-			else
-			{
-                //var result = await service.GetPlayersByTeamIdAsync(1);
-				//JsonHelper<Player>.Serialize(result, "players.json");
-                //AllPlayers = new ObservableCollection<Response>(result);
-			}
+        private ObservableCollection<PageNo> allPages;
 
-            if (File.Exists("teams.json"))
+        public ObservableCollection<PageNo> AllPages
+        {
+            get { return allPages; }
+            set { allPages = value; OnPropertyChanged(); }
+        }
+
+        private PageNo selectedPageNo;
+
+        public PageNo SelectedPageNo
+        {
+            get { return selectedPageNo; }
+            set
             {
-                var result = JsonHelper<Response>.Deserialize("teams.json");
-                AllTeams = new ObservableCollection<Response>(result.Skip(0).Take(10));
+                selectedPageNo = value; OnPropertyChanged();
+                var no = SelectedPageNo.No;
+                AllTeams = new ObservableCollection<Response>(result.Skip((no - 1) * 10).Take(10));
+            }
+        }
+
+        List<Response> result = null;
+        public HomeViewModel()
+        {
+            LoadData();
+        }
+        public RelayCommand SelectPageCommand { get; set; }
+        public async void LoadData()
+        {
+            SelectedPageNo = new PageNo
+            {
+                No = 1
+            };
+
+            var service = new NbaApiService();
+            if (File.Exists("players.json"))
+            {
+                //var result = JsonHelper<Player>.Deserialize("players.json");
+                //            AllPlayers = new ObservableCollection<Response>(result);
             }
             else
             {
-                var result = await service.GetTeamsAsync();
-                JsonHelper<Response>.Serialize(result, "teams.json");
-                AllTeams = new ObservableCollection<Response>(result);
+                //var result = await service.GetPlayersByTeamIdAsync(1);
+                //JsonHelper<Player>.Serialize(result, "players.json");
+                //AllPlayers = new ObservableCollection<Response>(result);
             }
-            //var result = await service.GetTeamsAsync();
-            //AllTeams = new ObservableCollection<Response>(result);
+            if (File.Exists("teams.json"))
+            {
+                result = JsonHelper<Response>.Deserialize("teams.json");
+            }
+            else
+            {
+                result = await service.GetTeamsAsync();
+                JsonHelper<Response>.Serialize(result, "teams.json");
+            }
+
+
+            allPages = new ObservableCollection<PageNo>();
+            var pageCount = decimal.Parse(result.Count.ToString()) / 10;
+            int count = (int)Math.Ceiling(pageCount);
+
+            for (int i = 0; i < count; i++)
+            {
+                allPages.Add(new PageNo
+                {
+                    No = i + 1
+                });
+            }
+
+            AllTeams = new ObservableCollection<Response>(result.Skip(0).Take(10));
+
+
+            SelectPageCommand = new RelayCommand((o) =>
+            {
+                var no = SelectedPageNo.No;
+                AllTeams = new ObservableCollection<Response>(result.Skip((no - 1) * 10).Take(10));
+            });
+
         }
 
-	}
+
+
+
+    }
 }
