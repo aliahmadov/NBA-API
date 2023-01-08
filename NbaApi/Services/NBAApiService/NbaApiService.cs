@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace NbaApi.Services.NBAApiService
 {
@@ -24,7 +25,7 @@ namespace NbaApi.Services.NBAApiService
                 RequestUri = new Uri($"https://api-nba-v1.p.rapidapi.com/players?team={teamId}&season=2021"),
                 Headers =
     {
-        { "X-RapidAPI-Key", "asd" },
+        { "X-RapidAPI-Key", ApiKeys.Key },
         { "X-RapidAPI-Host", "api-nba-v1.p.rapidapi.com" },
     },
             };
@@ -51,7 +52,7 @@ namespace NbaApi.Services.NBAApiService
                 return result.ToList();
             }
         }
-        public async Task<List<ApiEntities.Teams.Response>> GetTeams()
+        public async Task<List<ApiEntities.Teams.Response>> GetTeamsAsync()
         {
             var client = new HttpClient();
             var request = new HttpRequestMessage
@@ -60,7 +61,7 @@ namespace NbaApi.Services.NBAApiService
                 RequestUri = new Uri("https://api-nba-v1.p.rapidapi.com/teams"),
                 Headers =
     {
-        { "X-RapidAPI-Key", "asd" },
+        { "X-RapidAPI-Key", ApiKeys.Key },
         { "X-RapidAPI-Host", "api-nba-v1.p.rapidapi.com" },
     },
             };

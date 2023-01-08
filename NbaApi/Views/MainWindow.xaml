@@ -5,8 +5,46 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:NbaApi"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800" Background="Black">
     <Grid>
-        
+        <ListView ItemsSource="{Binding AllTeams,Mode=TwoWay,UpdateSourceTrigger=PropertyChanged}"
+                      BorderThickness="6"
+                     
+                    >
+            <!--<i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding SelectedCarChangedCommand}" ></i:InvokeCommandAction>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>-->
+
+            <ListBox.Template>
+                <ControlTemplate TargetType="ListBox">
+                    <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderBrush}">
+                        <ItemsPresenter/>
+                    </Border>
+                </ControlTemplate>
+            </ListBox.Template>
+
+
+            <ListView.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel   ></WrapPanel>
+                </ItemsPanelTemplate>
+            </ListView.ItemsPanel>
+
+            <ListView.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <StackPanel Width="250" >
+                            <Image Width="150" Height="200" Source="{Binding logo}"  ></Image>
+                            <TextBlock Foreground="White" FontWeight="ExtraBold" FontSize="26" Text="{Binding name}"  ></TextBlock>
+                            <TextBlock Foreground="White" FontWeight="ExtraBold" FontSize="26" Text="{Binding city}"  ></TextBlock>
+                        </StackPanel>
+                    </Border>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+
+        </ListView>
+
     </Grid>
 </Window>

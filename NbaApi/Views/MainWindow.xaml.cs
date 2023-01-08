@@ -1,4 +1,5 @@
 ﻿using NbaApi.Services.NBAApiService;
+using NbaApi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,7 +26,8 @@ namespace NbaApi
         public MainWindow()
         {
             InitializeComponent();
-
+            var vm = new HomeViewModel();
+            this.DataContext = vm;
         }
     }
 }
