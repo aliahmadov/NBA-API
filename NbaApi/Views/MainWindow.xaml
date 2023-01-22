@@ -13,7 +13,7 @@
                     >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding SelectedCarChangedCommand}" CommandParameter="{Binding SelectedTeam}"  ></i:InvokeCommandAction>
+                    <i:InvokeCommandAction Command="{Binding SelectedTeamCommand}" CommandParameter="{Binding SelectedTeam}"  ></i:InvokeCommandAction>
                 </i:EventTrigger>
             </i:Interaction.Triggers>
 

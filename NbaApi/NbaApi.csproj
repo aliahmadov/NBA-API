@@ -67,11 +67,20 @@
     <Compile Include="ApiEntities\Entities.cs" />
     <Compile Include="ApiEntities\EntitiesTeams.cs" />
     <Compile Include="Commands\RelayCommand.cs" />
+    <Compile Include="Models\CountryCategory.cs" />
     <Compile Include="Models\PageNo.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Services\JsonHelper.cs" />
     <Compile Include="Services\NBAApiService\ApiKeys.cs" />
     <Compile Include="Services\NBAApiService\NbaApiService.cs" />
+    <Page Include="Views\DisplayCountryCategories.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\DisplayPlayers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -81,7 +90,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ViewModels\BaseViewModel.cs" />
+    <Compile Include="ViewModels\CountryCategoriesViewModel.cs" />
+    <Compile Include="ViewModels\DisplayPlayersViewModel.cs" />
     <Compile Include="ViewModels\HomeViewModel.cs" />
+    <Compile Include="Views\DisplayCountryCategories.xaml.cs">
+      <DependentUpon>DisplayCountryCategories.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\DisplayPlayers.xaml.cs">
+      <DependentUpon>DisplayPlayers.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\MainWindow.xaml.cs">
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
